@@ -1,5 +1,6 @@
 from urllib import request,parse,error
 import json
+import time
 
 # 导入
 import block.market.market_model
@@ -15,24 +16,6 @@ Markets = block.market.market_model.Markets
 
 
 def get_market():
-    name = ''
-    display_name = ''
-    home_url = ''
-    volume = ''
-    display_volume = ''
-    status = ''
-    ping = ''
-    has_kline = ''
-    timestamps = ''
-    inflow_30m = ''
-    outflow_30m = ''
-    inflow_1h = ''
-    outflow_1h = ''
-    inflow_1d = ''
-    outflow_1d = ''
-    inflow_1w = ''
-    outflow_1w = ''
-
     try:
         req = request.Request(url=url,method="GET")
         response = request.urlopen(req)
@@ -61,26 +44,40 @@ def get_market():
             # 转换为dict
             lt = eval(line)
             # 数据处理
-            for key in lt:
-                key = lt[key]
 
-            # name = lt['name']
-            # display_name = lt['display_name']
-            # home_url = lt['home_url']
-            # volume = lt['volume']
-            # display_volume = lt['display_volume']
-            # status = lt['status']
-            # ping = lt['ping']
-            # has_kline = lt['has_kline']
-            # timestamps = lt['timestamps']
-            # inflow_30m = lt['inflow_30m']
-            # outflow_30m = lt['outflow_30m']
-            # inflow_1h = lt['inflow_1h']
-            # outflow_1h = lt['outflow_1h']
-            # inflow_1d = lt['inflow_1d']
-            # outflow_1d = lt['outflow_1d']
-            # inflow_1w = lt['inflow_1w']
-            # outflow_1w = lt['outflow_1w']
+            # error 得不了对应变量名的值
+            # for key in lt:
+            #     key = lt[key]
+
+            name = lt['name']
+            display_name = lt['display_name']
+            home_url = lt['home_url']
+            volume = lt['volume']
+            display_volume = lt['display_volume']
+            status = lt['status']
+            ping = lt['ping']
+            has_kline = lt['has_kline']
+
+            if 'timestamps' in lt.keys():
+                timestamps = lt['timestamps']
+                inflow_30m = lt['inflow_30m']
+                outflow_30m = lt['outflow_30m']
+                inflow_1h = lt['inflow_1h']
+                outflow_1h = lt['outflow_1h']
+                inflow_1d = lt['inflow_1d']
+                outflow_1d = lt['outflow_1d']
+                inflow_1w = lt['inflow_1w']
+                outflow_1w = lt['outflow_1w']
+            else:
+                timestamps = time.time()
+                inflow_30m = 0
+                outflow_30m = 0
+                inflow_1h = 0
+                outflow_1h = 0
+                inflow_1d = 0
+                outflow_1d = 0
+                inflow_1w = 0
+                outflow_1w = 0
 
 
             if status is not None:
@@ -88,8 +85,7 @@ def get_market():
                     status = 1;
                 else:
                     status = 0;
-            print(status)
-            exit()
+
             # 查询是否已存在
             result = Session.query(Markets).filter_by(name=name).first()
             # 判断结果
