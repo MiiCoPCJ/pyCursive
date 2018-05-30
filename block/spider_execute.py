@@ -21,6 +21,6 @@ def timming_exe(fun, inc=60):
 
 if __name__ == '__main__':
     try:
-        timming_exe(block.market.market_api.get_market, inc=10)
+        timming_exe(block.market.market_api.get_market, inc=1)
     except KeyboardInterrupt as e:
         pass

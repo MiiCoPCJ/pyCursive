@@ -3,15 +3,18 @@ import json
 import time
 
 # 导入
-import block.market.market_model
+# import block.market.market_model
+from block.market.market_model import Session,Markets
+
+
 
 url ='https://data.block.cc/api/v1/markets'
 headers = {
     'User-Agent':'Mozilla/5.0 (X11; U; Linux i686)Gecko/20071127 Firefox/2.0.0.11'
 }
 
-Session = block.market.market_model.Session
-Markets = block.market.market_model.Markets
+# Session = block.market.market_model.Session
+# Markets = block.market.market_model.Markets
 
 
 
@@ -57,6 +60,7 @@ def get_market():
             status = lt['status']
             ping = lt['ping']
             has_kline = lt['has_kline']
+
 
             if 'timestamps' in lt.keys():
                 timestamps = lt['timestamps']
